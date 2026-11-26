@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gia Sư AI Toán 10 (CT 2018) - Ôn Tập & Sửa Lỗi Tại Nhà</title>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --danger: #e53935;
+            --danger-dark: #c62828;
+            --bg: #f0f4f8;
+            --card: #ffffff;
+            --border: #d0d7de;
+            --text: #1f2328;
+            --muted: #57606a;
+            --soft-blue: #f8fbff;
+            --soft-pad: #f6f8fa;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: "Times New Roman", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            line-height: 1.5;
+        }
+        .box {
+            max-width: 780px;
+            margin: auto;
+            background: var(--card);
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+        h2 {
+            text-align: center;
+            color: var(--primary);
+            margin: 0 0 6px 0;
+            font-size: 22px;
+        }
+        .sub-header {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+        textarea { resize: vertical; }
+        .target-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: var(--soft-pad);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .target-bar label {
+            margin: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+        .mathtype-panel {
+            margin-top: 10px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fafbfc;
+            padding: 12px;
+        }
+        .mt-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .mt-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .mt-tab {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--text);
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .mt-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .mt-group {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+            gap: 6px;
+        }
+        .mt-group.active {
+            display: grid;
+        }
+        .sym-btn {
+            padding: 7px 6px;
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            color: var(--text);
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sym-btn:hover {
+            background: #e8f0fe;
+            border-color: var(--primary);
+        }
+        .preview-box {
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: #fff;
+            border: 1px dashed #94a3b8;
+            border-radius: 8px;
+            min-height: 44px;
+            font-size: 15px;
+        }
+        .preview-label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+        .btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        button.action-btn {
+            flex: 1;
+            min-width: 180px;
+            padding: 13px 16px;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .btn-err { background: var(--danger); }
+        .btn-err:hover { background: var(--danger-dark); }
+        .btn-bas { background: var(--primary); }
+        .btn-bas:hover { background: var(--primary-dark); }
+        #out {
+            margin-top: 18px;
+            padding: 16px;
+            background: var(--soft-blue);
+            border-left: 5px solid var(--primary);
+            border-radius: 8px;
+            display: none;
+            line-height: 1.65;
+            font-size: 15px;
+        }
+        .footer-note {
+            margin-top: 18px;
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: var(--muted);
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .box { padding: 15px; }
+            h2 { font-size: 19px; }
+            .mt-group { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>GIA SƯ AI TOÁN 10 (CT 2018) - ÔN TẬP &amp; SỬA LỖI TẠI NHÀ</h2>
+    <div class="sub-header">Hỗ trợ học sinh mất gốc kiến thức nền tảng &bull; Tích hợp bàn phím công thức MathType 7.1 &amp; MathJax</div>
+
+    <label for="apiKey">Mã khóa AI (Thầy/cô cung cấp):</label>
+    <input type="password" id="apiKey" placeholder="Dán mã Gemini API Key vào đây...">
+
+    <label for="topic">Chuyên đề Toán 10 (Chương trình GDPT 2018):</label>
+    <select id="topic">
+        <option value="Chương I: Mệnh đề và Tập hợp">Chương I: Mệnh đề và Tập hợp</option>
+        <option value="Chương II: Bất phương trình và Hệ bất phương trình bậc nhất hai ẩn">Chương II: Bất phương trình và Hệ bất phương trình bậc nhất hai ẩn</option>
+        <option value="Chương III: Hệ thức lượng trong tam giác">Chương III: Hệ thức lượng trong tam giác</option>
+        <option value="Chương IV: Vectơ">Chương IV: Vectơ</option>
+        <option value="Chương V: Các số đặc trưng của mẫu số liệu không ghép nhóm">Chương V: Các số đặc trưng của mẫu số liệu không ghép nhóm</option>
+        <option value="Chương VI: Hàm số, đồ thị và ứng dụng">Chương VI: Hàm số, đồ thị và ứng dụng</option>
+        <option value="Chương VII: Phương pháp tọa độ trong mặt phẳng">Chương VII: Phương pháp tọa độ trong mặt phẳng</option>
+        <option value="Chương VIII: Đại số tổ hợp">Chương VIII: Đại số tổ hợp</option>
+        <option value="Chương IX: Tính xác suất theo định nghĩa cổ điển">Chương IX: Tính xác suất theo định nghĩa cổ điển</option>
+    </select>
+
+    <label for="problem">Đề bài / Câu hỏi em đang làm:</label>
+    <textarea id="problem" rows="3" placeholder="Nhập đề bài hoặc bấm nút ký hiệu MathType 7.1 bên dưới để chèn công thức..."></textarea>
+
+    <label for="work">Bài làm của em (hoặc chỗ em đang vướng):</label>
+    <textarea id="work" rows="4" placeholder="Nhập các bước giải hoặc câu trả lời của em để thầy/cô AI kiểm tra lỗi sai..."></textarea>
+
+    <div class="target-bar">
+        <strong>Chèn công thức vào ô:</strong>
+        <label><input type="radio" name="targetField" value="problem"> Đề bài</label>
+        <label><input type="radio" name="targetField" value="work" checked> Bài làm của em</label>
+    </div>
+
+    <div class="mathtype-panel" aria-label="Bảng nhập công thức MathType 7.1">
+        <div class="mt-title">
+            <span>BẢNG KÝ HIỆU TOÁN HỌC CHUẨN MATHTYPE 7.1</span>
+            <span style="font-weight:normal; font-size:12px; color:#57606a;">Chạm để chèn ký hiệu; sửa nội dung trong ngoặc nhọn <code>{...}</code></span>
+        </div>
+        <div class="mt-tabs" role="tablist">
+            <button type="button" class="mt-tab active" onclick="switchTab(event, 'grp-algebra')">Đại số &amp; Hàm số</button>
+            <button type="button" class="mt-tab" onclick="switchTab(event, 'grp-sets')">Mệnh đề &amp; Tập hợp</button>
+            <button type="button" class="mt-tab" onclick="switchTab(event, 'grp-vector')">Vectơ &amp; Tọa độ</button>
+            <button type="button" class="mt-tab" onclick="switchTab(event, 'grp-trig')">Lượng giác &amp; Tam giác</button>
+            <button type="button" class="mt-tab" onclick="switchTab(event, 'grp-comb')">Tổ hợp &amp; Xác suất</button>
+            <button type="button" class="mt-tab" onclick="switchTab(event, 'grp-greek')">Hy Lạp &amp; Quan hệ</button>
+        </div>
+
+        <!-- Nhóm 1: Đại số & Hàm số -->
+        <div id="grp-algebra" class="mt-group active">
+            <button type="button" class="sym-btn" onclick="insertSym('$\\frac{a}{b}$')">$\frac{a}{b}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$x^{2}$')">$x^{2}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$x_{1}$')">$x_{1}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\sqrt{x}$')">$\sqrt{x}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\sqrt[n]{x}$')">$\sqrt[n]{x}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$|x|$')">$|x|$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\pm$')">$\pm$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\mp$')">$\mp$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\times$')">$\times$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\cdot$')">$\cdot$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\div$')">$\div$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$f(x)$')">$f(x)$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\Delta$')">$\Delta$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\infty$')">$\infty$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$(a; b)$')">$(a;b)$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$[a; b]$')">$[a;b]$</button>
+        </div>
+
+        <!-- Nhóm 2: Mệnh đề & Tập hợp -->
+        <div id="grp-sets" class="mt-group">
+            <button type="button" class="sym-btn" onclick="insertSym('$\\forall$')">$\forall$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\exists$')">$\exists$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\in$')">$\in$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\notin$')">$\notin$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\subset$')">$\subset$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\supset$')">$\supset$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\cup$')">$\cup$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\cap$')">$\cap$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\setminus$')">$\setminus$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\emptyset$')">$\emptyset$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\mathbb{N}$')">$\mathbb{N}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\mathbb{Z}$')">$\mathbb{Z}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\mathbb{Q}$')">$\mathbb{Q}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\mathbb{R}$')">$\mathbb{R}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\Rightarrow$')">$\Rightarrow$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\Leftrightarrow$')">$\Leftrightarrow$</button>
+        </div>
+
+        <!-- Nhóm 3: Vectơ & Tọa độ -->
+        <div id="grp-vector" class="mt-group">
+            <button type="button" class="sym-btn" onclick="insertSym('$\\overrightarrow{AB}$')">$\overrightarrow{AB}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\vec{a}$')">$\vec{a}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$|\\overrightarrow{AB}|$')">$|\overrightarrow{AB}|$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\vec{i}$')">$\vec{i}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\vec{j}$')">$\vec{j}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$O(x; y)$')">$O(x;y)$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\vec{n}$')">$\vec{n}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\vec{u}$')">$\vec{u}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\perp$')">$\perp$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\parallel$')">$\parallel$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\angle$')">$\angle$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\triangle ABC$')">$\triangle ABC$</button>
+        </div>
+
+        <!-- Nhóm 4: Lượng giác & Tam giác -->
+        <div id="grp-trig" class="mt-group">
+            <button type="button" class="sym-btn" onclick="insertSym('$\\sin$')">$\sin$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\cos$')">$\cos$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\tan$')">$\tan$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\cot$')">$\cot$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$^{\\circ}$')">$^{\circ}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\pi$')">$\pi$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\frac{\\pi}{2}$')">$\frac{\pi}{2}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\frac{\\pi}{3}$')">$\frac{\pi}{3}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\frac{\\pi}{4}$')">$\frac{\pi}{4}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\frac{\\pi}{6}$')">$\frac{\pi}{6}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$S_{\\triangle}$')">$S_{\triangle}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$R$')">$R$</button>
+        </div>
+
+        <!-- Nhóm 5: Tổ hợp & Xác suất -->
+        <div id="grp-comb" class="mt-group">
+            <button type="button" class="sym-btn" onclick="insertSym('$n!$')">$n!$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$A_{n}^{k}$')">$A_{n}^{k}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$C_{n}^{k}$')">$C_{n}^{k}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$P_{n}$')">$P_{n}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$P(A)$')">$P(A)$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\overline{A}$')">$\overline{A}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$n(\\Omega)$')">$n(\Omega)$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$n(A)$')">$n(A)$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\overline{x}$')">$\overline{x}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$s^{2}$')">$s^{2}$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\sum$')">$\sum$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$Q_{1}, Q_{2}, Q_{3}$')">$Q_{1}, Q_{2}, Q_{3}$</button>
+        </div>
+
+        <!-- Nhóm 6: Hy Lạp & Quan hệ -->
+        <div id="grp-greek" class="mt-group">
+            <button type="button" class="sym-btn" onclick="insertSym('$\\alpha$')">$\alpha$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\beta$')">$\beta$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\gamma$')">$\gamma$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\theta$')">$\theta$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\varphi$')">$\varphi$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\lambda$')">$\lambda$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\Omega$')">$\Omega$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\le$')">$\le$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\ge$')">$\ge$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\neq$')">$\neq$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\approx$')">$\approx$</button>
+            <button type="button" class="sym-btn" onclick="insertSym('$\\equiv$')">$\equiv$</button>
+        </div>
+
+        <div class="preview-box">
+            <div class="preview-label">Xem trước công thức đang nhập ở ô được chọn:</div>
+            <div id="mathPreview"><em>Chưa có công thức...</em></div>
+        </div>
+    </div>
+
+    <div class="btns">
+        <button type="button" class="action-btn btn-err" onclick="runAI('error')">Chỉ ra lỗi sai</button>
+        <button type="button" class="action-btn btn-bas" onclick="runAI('basic')">Giảng từ mất gốc</button>
+    </div>
+
+    <div id="out"></div>
+
+    <div class="footer-note">
+        Tác giả: Nguyễn Anh Tuấn &bull; Tổ trưởng chuyên môn Toán &bull; Môn Toán 10 (Chương trình GDPT 2018)
+    </div>
+</div>
+
+<script>
+    window.onload = () => {
+        if (localStorage.getItem('gemini_key')) {
+            document.getElementById('apiKey').value = localStorage.getItem('gemini_key');
+        }
+        document.getElementById('problem').addEventListener('input', updatePreview);
+        document.getElementById('work').addEventListener('input', updatePreview);
+        document.querySelectorAll('input[name="targetField"]').forEach(r => {
+            r.addEventListener('change', updatePreview);
+        });
+        updatePreview();
+    };
+
+    function getTargetTextarea() {
+        const selected = document.querySelector('input[name="targetField"]:checked').value;
+        return document.getElementById(selected);
+    }
+
+    function switchTab(evt, groupId) {
+        document.querySelectorAll('.mt-tab').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.mt-group').forEach(grp => grp.classList.remove('active'));
+        evt.currentTarget.classList.add('active');
+        document.getElementById(groupId).classList.add('active');
+        if (window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise([document.getElementById(groupId)]);
+        }
+    }
+
+    function insertSym(snippet) {
+        const ta = getTargetTextarea();
+        const start = ta.selectionStart ?? ta.value.length;
+        const end = ta.selectionEnd ?? ta.value.length;
+        const before = ta.value.substring(0, start);
+        const after = ta.value.substring(end);
+        ta.value = before + snippet + after;
+        ta.focus();
+        const cursorPos = start + snippet.length;
+        ta.setSelectionRange(cursorPos, cursorPos);
+        updatePreview();
+    }
+
+    function updatePreview() {
+        const ta = getTargetTextarea();
+        const previewEl = document.getElementById('mathPreview');
+        const text = ta.value.trim();
+        if (!text) {
+            previewEl.innerHTML = '<em>Chưa có công thức...</em>';
+        } else {
+            previewEl.textContent = text;
+        }
+        if (window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise([previewEl]);
+        }
+    }
+
+    async function runAI(mode) {
+        const key = document.getElementById('apiKey').value.trim();
+        const topic = document.getElementById('topic').value;
+        const prob = document.getElementById('problem').value.trim();
+        const work = document.getElementById('work').value.trim();
+        const out = document.getElementById('out');
+
+        if (!key || !prob) {
+            alert("Em hãy nhập đủ Mã khóa AI và Đề bài nhé!");
+            return;
+        }
+        localStorage.setItem('gemini_key', key);
+        out.style.display = 'block';
+        out.innerHTML = "Thầy/cô AI đang xem bài cho em, đợi một chút nhé...";
+
+        const subjectRole = "giáo viên Toán THPT (Chương trình GDPT 2018) kiên nhẫn, ấm áp, chuyên kèm học sinh mất gốc kiến thức nền tảng";
+        let prompt = mode === 'error'
+            ? `Đóng vai ${subjectRole}. Môn: Toán 10. Chuyên đề: ${topic}. Đề bài: "${prob}". Bài làm học sinh: "${work || 'Chưa làm được'}". Hãy: (1) Khen ngợi sự cố gắng của em; (2) Chỉ rõ dòng/bước sai và giải thích nguyên nhân gốc rễ (nhắc lại ngắn gọn 01 kiến thức nền tảng bị hổng); (3) Tuyệt đối KHÔNG giải ra đáp án cuối cùng, hãy đặt 01 câu hỏi gợi mở nhẹ nhàng để em tự sửa. Trình bày công thức toán học chuẩn LaTeX ($...$).`
+            : `Đóng vai ${subjectRole}. Môn: Toán 10. Chuyên đề: ${topic}. Đề bài: "${prob}". Học sinh bị mất gốc nên chưa hiểu bài. Hãy nhắc lại 1-2 kiến thức nền tảng cần dùng và hướng dẫn bước đầu tiên thật đơn giản kèm 01 câu hỏi gợi mở dễ hiểu. Tuyệt đối KHÔNG giải hết bài. Trình bày công thức toán học chuẩn LaTeX ($...$).`;
+
+        try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const data = await res.json();
+            const reply = data.candidates[0].content.parts[0].text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            out.innerHTML = reply;
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise([out]);
+            }
+        } catch (e) {
+            out.innerHTML = "Lỗi kết nối mạng hoặc sai mã API Key, em kiểm tra lại nhé!";
+        }
+    }
+</script>
+</body>
+</html>
